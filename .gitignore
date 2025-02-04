@@ -1,0 +1,31 @@
+# Python-specific ignores
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+.env
+.venv/
+.envrc
+
+# IDE settings
+.idea/
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs and temp files
+logs/
+*.log
+*.sqlite3
+instance/
+
+# Pytest cache
+.pytest_cache/
+
+# Migrations (optional, if using SQLAlchemy or Alembic)
+migrations/
