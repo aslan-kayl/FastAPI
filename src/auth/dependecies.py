@@ -14,7 +14,7 @@ from src.errors import (
     InvalidToken,
     RefreshTokenRequired,
     AccessTokenRequired,
-    InsuffcientPermission
+    InsufficientPermission
 )
 
 
@@ -91,4 +91,4 @@ class RoleChecker:
         if current_user.role in self.allowed_roles:
             return True
 
-        raise InsuffcientPermission()
+        raise InsufficientPermission()
