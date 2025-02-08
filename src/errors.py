@@ -80,6 +80,10 @@ class AccountNotVerified(Exception):
     """Account not yet verified"""
     pass
 
+class ReviewNotFound(BooklyException):
+    """Review Not Found"""
+    pass
+
 def create_exception_handler(
     status_code: int, initial_detail: Any
 ) -> Callable[[Request, Exception], JSONResponse]:
@@ -227,6 +231,17 @@ def register_all_errors(app: FastAPI):
                 "resolution":"Please check your email for verification details"
             },
         ),
+    )
+
+    app.add_exception_handler(
+        ReviewNotFound,
+        create_exception_handler(
+            status_code=status.HTTP_404_NOT_FOUND,
+            initial_detail={
+                "message": "Review Not Found",
+                "error_code": "review_not_found",
+            }
+        )
     )
 
     @app.exception_handler(500)

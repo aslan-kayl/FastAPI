@@ -1,3 +1,5 @@
+
+
 from src.db.models import Review
 from src.auth.servise import UserService
 from src.books.service import BookService
@@ -7,6 +9,7 @@ from fastapi import status
 from .schemas import ReviewCreateModel
 from sqlmodel import desc, select
 import logging
+from src.errors import ReviewNotFound
 
 
 book_service = BookService()
@@ -74,6 +77,35 @@ class ReviewService:
                 detail="Cannot delete this review.",
                 status_code=status.HTTP_403_FORBIDDEN,
             )
+        await session.delete(review)
+
+        await session.commit()
+
+    async def update_review(self, review_uid: str, review_update_data: ReviewCreateModel, session: AsyncSession):
+
+        review = await self.get_review(review_uid, session)
+
+        if not review:
+            raise ReviewNotFound()
+
+        update_data_dict = review_update_data.model_dump()
+
+        for key, value in update_data_dict.items():
+            setattr(review, key, value)
+
+            await session.commit()
+
+            await session.refresh(review)
+
+        return review
+
+    async def delete_review(self, review_uid: str, session:AsyncSession):
+
+        review = await self.get_review(review_uid, session)
+
+        if not review:
+            raise ReviewNotFound()
+
         await session.delete(review)
 
         await session.commit()
