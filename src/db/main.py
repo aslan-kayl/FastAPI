@@ -7,7 +7,6 @@ from src.config import Config
 async_engine = AsyncEngine(
         create_engine(
         url=Config.DATABASE_URL,
-        echo=True
 ))
 
 async def init_db() -> None :

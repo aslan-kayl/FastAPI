@@ -1,5 +1,4 @@
 import uuid
-from datetime import datetime
 from pydantic import BaseModel, Field
 from src.books.schemas import Book
 from src.reviews.schemas import ReviewModel
@@ -35,3 +34,14 @@ class UserBooksModel(UserModel):
 class UserLoginModel(BaseModel):
     email: str = Field(max_length=40)
     password: str = Field(max_length=15)
+
+
+class EmailModel(BaseModel):
+    addresses : List[str]
+
+class PasswordResetRequestModel(BaseModel):
+    email: str
+
+class PasswordResetConfirmModel(BaseModel):
+    new_password: str
+    confirm_new_password: str
